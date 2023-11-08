@@ -18,13 +18,14 @@ try:
         days= [i['dt_txt']for i in content['list']][0:daysin3hr]
 
         if options == "Temperature":
-            temperatures = [i['main']['temp'] for i in content['list']][0:daysin3hr]
-            temperatures= [i / 10 for i in temperatures]
-            figure = px.line(x=days, y=temperatures)
+            temperatures = [i['main']['temp']/10 for i in content['list']][0:daysin3hr]
+            figure = px.line(x=days, y=temperatures, labels={'x':'DATE', 'y':'Temperatures [C]'})
             st.plotly_chart(figure)
         elif options == "Sky":
             temperatures = [i['weather'][0]['main']for i in content['list']][0:daysin3hr]
-            img_url=[f"Images/{i.lower()}.png" for i in temperatures]
+            kind={"Clouds":"clouds.png", "Clear":"clear.png", "Snow":"snow.png", "Rain":"rain.png"}
+            img_url=[f"Images/{kind[i]}" for i in temperatures]
+            # img_url=[f"Images/{i.lower()}.png" for i in temperatures]
             st.image(img_url,width=150)
 
 
